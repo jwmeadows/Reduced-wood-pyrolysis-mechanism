@@ -6,4 +6,4 @@ Banagiri S., Parameswaran M., Khadakkar I., Meadows J., Lattimer B. Y., A reduce
 
 **Usage Instructions:**
 
-This code is meant to be provide a framework for developing pyrolysis mechanisms for various composite materials. The various quantities derived using the code are meant for mixed hardwood species only. Researchers can use the algorithms provided here in conjunction with micro-scale experiments to obtain pyrolysis parameters for specific materials.
+This code is meant to be provide a framework for developing pyrolysis mechanisms for various composite materials. The various quantitative parameters derived using the code are meant for mixed hardwood species only. However, researchers can use the algorithms provided here in conjunction with micro-scale experiments to obtain pyrolysis parameters for specific materials.
