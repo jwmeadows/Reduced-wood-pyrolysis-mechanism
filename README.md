@@ -8,9 +8,7 @@ Banagiri S., Parameswaran M., Khadakkar I., Meadows J., Lattimer B. Y., A reduce
 
 This code is meant to be provide a framework for developing pyrolysis mechanisms for various composite materials. The various quantitative parameters derived using the code are meant for mixed hardwood species only. However, researchers can use the algorithms provided here in conjunction with micro-scale experiments (TGA/DSC and GC) to obtain pyrolysis parameters for specific materials. Keeping this caveat in mind, the following steps describe how this code can be used to compute relevant pyrolysis parameters. The steps below aim to construct a reduced wood pyrolysis mechanism that has the following reactions. Pyrolysis reaction rates, gaseous species production rates, the enthalpies of reactions for the pyrolysis reactions and the gaseous phase combustion heat release are estimated using the following algorithm.
 
-
-
-
+![Figure 1: Pyrolysis and gas phase reactions estimated](reaction_pathways.png)
 
 1. This code requires the usage of ```pandas```, ```numpy```, and ```scipy``` libraries. The code also requires the usage of the ```cantera``` package. Using ```cantera```, a mechanism file containing relevant pyrolysis gases for your application. The pyrolysis gases present in your application can be estimated using GC experiments.
 2. Next, read the mass loss data from your TGA experiments at different heating rates and apply a smoothing function (Savitzky-Golay filter in this code) to remove noise in the dataset. After smoothing the mass loss TGA data, compute the mass loss rate at different heating rates.
@@ -52,8 +50,19 @@ $$
 \dot{m_i} = \psi_{i, j} \frac{d m_j}{dt} 
 $$
 
-10. Once the species mass flow rates are estimated, the gaseous mixture enthalpies can be computed using the ```cantera```. Using a 1D energy balance derived in the authors' previous publication, the enthalpy of decomposition for the three pyrolysis reactions
-   
+10. Once the species mass flow rates are estimated, the gaseous mixture enthalpies can be computed using the ```cantera```. Using a 1D energy balance derived in the [authors' previous publication](https://doi.org/10.1016/j.fuel.2024.133416), the heat of decomposition for the three pyrolysis reactions is estimated using the equation and the least squares optimization below. The heats of decompositon are estimated by solving the least squares optimization problem for DSC experiments conducted at a heating rate of 5 K/min. These heats of decomposition values are then validated for heating rates of 10 K/min and 20 K/min.
+
+$$
+f C_{effective} \frac{\partial T}{\partial t}+ \sum_{j=1}^3\left(\left(\Delta h_j+\int_{T_{r e f}}^T C_j \partial T-\int_{T_{r e f}}^T C_{p, g, j} \partial T\right) \frac{\partial f_j}{\partial t}\right) =\frac{\dot{Q_{DSC}}}{m_{virgin}}
+$$
+
+$$
+\min_{\Delta h_j} \frac{1}{2} \sum_{T} \left( f_T C_{\text{effective}, T} \frac{\partial T}{\partial t} + \sum_{j=1}^3 \left( \left( \Delta h_j + \int_{T_{\text{ref}}}^T C_{j, T} \, dT - \int_{T_{\text{ref}}}^T C_{p, g, j, T} \, dT \frac{\partial f_{j, T}}{\partial t} \right) \right) - \frac{\dot{Q_{\text{DSC}, T}}}{m_{\text{virgin}}} \right)^2
+$$
+
+11. By using the predicted composition of the pyrolysis gas, the heat release rate is estimated using a 0D constant pressure reactor. These heat release rates are computing using the function ```specific_heat_release(hr)``` in the code. This function takes in the heating rate (K/s) and output the gas phase heat release rate (W/g). The time-varying heat release rates are validated against studies by [Xu et al.](https://doi.org/10.3390/polym14010045) and [Hostikka and Matala](https://doi.org/10.1080/00102202.2017.1295959). In this manner, the reduced pyrolysis mechanism accounts for both the solid and gas phase parameters.
+
+
 **Citation:**
 
 While referring to the code provided here, please cite the following article:
