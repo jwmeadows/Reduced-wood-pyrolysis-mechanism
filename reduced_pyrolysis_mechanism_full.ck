@@ -6,7 +6,7 @@
 ! Lignin is defined as C18H13N3Na2O8S2 whose molecular weight is 509.4 g/mol. Char is defined to be carbon (C (s)) with a molecular weight of 12 kg/kmol.
 ! THERMO is defined using NASA-7 polynomials. Specific heat capacities of Hemicellulose, Cellulose, and Lignin were initially formulated as power law functions. However, 
 ! a NASA-7 fit function is used to convert them to NASA-7 polynomials
-! TRANSPORT properties are given by the GRI3.0 mechanism Link: [http://combustion.berkeley.edu/gri-mech/version30/text30.html#thefiles](http://combustion.berkeley.edu/gri-mech/version30/text30.html#thefiles)
+! TRANSPORT properties are given by the GRI3.0 mechanism Link: http://combustion.berkeley.edu/gri-mech/version30/text30.html#thefiles
 
 ELEM
 O H C N
